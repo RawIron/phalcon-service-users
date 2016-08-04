@@ -8,6 +8,7 @@ The Swagger specification of the API is in
 
 ## Design
 
+```
 +-- Micro-Service Generic ---+
 |                            |
 |   +-- User Service ----+   |
@@ -15,11 +16,12 @@ The Swagger specification of the API is in
 |   +--------------------+   |
 |                            |
 +----------------------------+
+```
 
 
 ## Implementation
 
-make use the the Phalcon\Micro framework
+make use of the Phalcon\Micro framework
 
 
 ## Run

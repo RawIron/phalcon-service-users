@@ -19,6 +19,8 @@
         password: similarly-secure-password
         priv: "customers.*:ALL"
 
+    php_enable_webserver: false
+
   pre_tasks:
     - name: add ansible repo
       apt_repository: repo="ppa:ansible/ansible"
@@ -29,4 +31,5 @@
       tags: ansible_latest
 
   roles:
-    - { role: geerlingguy.mysql, become: yes }
+    - { role: geerlingguy.mysql, become: yes, tags: ['mysql'] }
+    - { role: geerlingguy.php, tags: ['php'] }
