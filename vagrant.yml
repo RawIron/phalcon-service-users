@@ -1,0 +1,32 @@
+---
+
+- hosts: default
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+
+  vars:
+    mysql_user_home: /root
+    mysql_root_password: super-secure-password
+    mysql_root_password_update: yes
+    mysql_databases:
+      - name: customers
+        encoding: utf8
+        collation: utf8_general_ci
+    mysql_users:
+      - name: admin
+        host: "localhost"
+        password: similarly-secure-password
+        priv: "customers.*:ALL"
+
+  pre_tasks:
+    - name: add ansible repo
+      apt_repository: repo="ppa:ansible/ansible"
+      tags: ansible_latest
+
+    - name: install ansible latest
+      apt: name=ansible update_cache=yes state=latest
+      tags: ansible_latest
+
+  roles:
+    - { role: geerlingguy.mysql, become: yes }
