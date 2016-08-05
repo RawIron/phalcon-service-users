@@ -19,7 +19,25 @@
         password: similarly-secure-password
         priv: "customers.*:ALL"
 
-    php_enable_webserver: false
+    php_enable_webserver: true
+    php_webserver_daemon: "nginx"
+    php_enable_php_fpm: true
+    php_fpm_listen: "/var/run/php/php7.0-fpm.sock"
+
+    nginx_remove_default_vhost: true
+    nginx_vhosts:
+      - listen: "80"
+        server_name: "_"
+        root: "/var/www/phalcon-service-user"
+        index: "index.php index.html index.htm"
+        extra_parameters: |
+          location ~ \.php$ {
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include fastcgi_params;
+          }
 
   pre_tasks:
     - name: add ansible repo
@@ -32,5 +50,5 @@
 
   roles:
     - { role: geerlingguy.mysql, become: yes, tags: ['mysql'] }
-    - { role: geerlingguy.php, tags: ['php'] }
     - { role: geerlingguy.nginx, tags: ['nginx'] }
+    - { role: geerlingguy.php, tags: ['php'] }
