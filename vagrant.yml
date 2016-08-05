@@ -33,3 +33,4 @@
   roles:
     - { role: geerlingguy.mysql, become: yes, tags: ['mysql'] }
     - { role: geerlingguy.php, tags: ['php'] }
+    - { role: geerlingguy.nginx, tags: ['nginx'] }
