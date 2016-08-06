@@ -2,4 +2,7 @@
 
 - src: geerlingguy.mysql
 - src: geerlingguy.php
+- src: geerlingguy.php-mysql
 - src: geerlingguy.nginx
+- src: geerlingguy.composer
+- src: vkill.php7-phalcon
