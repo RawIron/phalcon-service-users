@@ -1,0 +1,49 @@
+---
+
+swagger: '2.0'
+
+info:
+  version: "0.1.0"
+  title: customer service api
+  description: |
+    manage customers
+
+
+host: api.phalcon-service-user.com
+schemes:
+  - http
+produces:
+  - application/json
+
+
+tags:
+  - name: customer
+
+
+paths:
+  /api/customers:
+    get:
+      description: |
+        Get `customer` objects.
+      tags:
+        - customer
+      responses:
+        200:
+          description: array of customers
+          schema:
+              type: array
+              items:
+                $ref: '#/definitions/Customer'
+
+
+definitions:
+  Customer:
+    description: customer object
+    type: object
+    properties:
+      id:
+        type: number
+        format: int64
+      name:
+        type: string
+
