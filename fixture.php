@@ -13,6 +13,11 @@ $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(
     )
 );
 
+
+if ($connection->tableExists("customers")) {
+    $connection->dropTable("customers");
+}
+
 $connection->createTable(
     "customers",
     null,
