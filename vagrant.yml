@@ -76,3 +76,6 @@
     - name: create sym link to web root
       file: src=/vagrant/ dest=/var/www/phalcon-service-user state=link
 
+    - name: load fixture data into db
+      command: php /vagrant/fixture.php
+

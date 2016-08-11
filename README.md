@@ -3,7 +3,7 @@
 
 ## API
 
-The Swagger specification of the API is in 
+The Swagger specification of the API is in `swagger.yaml`.
 
 
 ## Design
@@ -34,4 +34,11 @@ ansible-galaxy install -r requirements.yml
 Create and start the Vagrant box.
 ```
 vagrant up
+```
+
+
+## Test
+GET the customers
+```
+curl 127.0.0.1:8080/api/customers
 ```
