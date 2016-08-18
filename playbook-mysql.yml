@@ -1,0 +1,23 @@
+---
+
+- hosts: default
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  vars:
+    mysql_user_home: /root
+    mysql_root_password: super-secure-password
+    mysql_root_password_update: yes
+    mysql_databases:
+      - name: customers
+        encoding: utf8
+        collation: utf8_general_ci
+    mysql_users:
+      - name: admin
+        host: "172.17.0.%"
+        password: similarly-secure-password
+        priv: "customers.*:ALL"
+
+  roles:
+    - { role: geerlingguy.mysql, become: yes, tags: ['mysql'] }

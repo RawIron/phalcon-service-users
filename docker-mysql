@@ -1,0 +1,10 @@
+FROM williamyeh/ansible:ubuntu16.04
+
+ADD . /code
+WORKDIR /code
+
+RUN ansible-galaxy install -r requirements.yml
+RUN ansible-playbook --inventory-file=hosts playbook-mysql.yml --connection=local
+
+EXPOSE 3306
+CMD ["mysqld"]
