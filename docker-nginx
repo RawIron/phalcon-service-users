@@ -1,0 +1,20 @@
+FROM williamyeh/ansible:ubuntu16.04
+
+# dev environment
+ADD . /code
+WORKDIR /code
+
+RUN ansible-galaxy install -r requirements.yml
+RUN ansible-playbook --inventory-file=hosts playbook-nginx.yml --connection=local
+
+
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+  && ln -sf /dev/stderr /var/log/nginx/error.log
+
+# update config files
+VOLUME ["/etc/nginx"]
+
+EXPOSE 80 443
+
+CMD ["nginx", "-g", "daemon off;"]
