@@ -1,0 +1,20 @@
+FROM williamyeh/ansible:ubuntu16.04
+
+ADD . /code
+WORKDIR /code
+
+RUN apt-get update \
+  && apt-get install --no-install-recommends --no-install-suggests -y git \
+  && ansible-galaxy install -r requirements.yml \
+  && ansible-playbook --inventory-file=hosts playbook-php-phalcon.yml --connection=local \
+  && rm -rf /var/lib/apt/lists/*
+
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stderr /var/log/php7.0-fpm.log
+
+# update the config
+VOLUME ["/etc/php/7.0/fpm"]
+
+EXPOSE 9000
+
+CMD ["php-fpm7.0", "--allow-to-run-as-root", "--nodaemonize", "--fpm-config", "/etc/php/7.0/fpm/php-fpm.conf"]

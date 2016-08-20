@@ -1,0 +1,26 @@
+---
+
+- hosts: default
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  vars:
+    php_enable_webserver: false
+    php_webserver_daemon: "nginx"
+    php_enable_php_fpm: true
+    php_fpm_listen: "127.0.0.1:9000"
+    php_fpm_listen_allowed_clients: "172.17.0.2"
+
+    php7_phalcon_enable_for_fpm: true
+    php7_phalcon_cphalcon_version: "3.0.x"
+
+  pre_tasks:
+    - name: install git
+      apt: name=git update_cache=yes state=latest
+
+  roles:
+    - { role: geerlingguy.php, tags: ['php'] }
+    - { role: geerlingguy.php-mysql, tags: ['php-mysql'] }
+    - { role: geerlingguy.composer, tags: ['php-composer'] }
+    - { role: rawiron.php7-phalcon, tags: ['php-phalcon'] }
