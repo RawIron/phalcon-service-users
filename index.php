@@ -8,7 +8,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
 
 $settings = [];
 
-if (gethostname() == "vagrant") {
+if (gethostname() == "vagrant-phalcon") {
     $settings = [
         "mysql" => [
                 "host"     => "127.0.0.1",
@@ -59,21 +59,20 @@ $di->set('db', function () {
 // Application
 $app = new Micro($di);
 
-
 $app->get('/api/customers', function () use ($app) {
-    $phql = "SELECT * FROM Customers ORDER BY name";
-    $customers = $app->modelsManager->executeQuery($phql);
+    $phql = "SELECT id, name FROM customers ORDER BY name";
+    $customers = $app->db->query($phql);
 
     $data = array();
-    foreach ($customers as $customer) {
+    while ($customer = $customers->fetchArray()) {
         $data[] = array(
-            'id'   => $customer->id,
-            'name' => $customer->name
+            'id'   => $customer['id'],
+            'name' => $customer['name']
         );
     }
-
+ 
     echo json_encode($data);
 });
 
 
-$app->handle();
+$app->handle($_SERVER["REQUEST_URI"]);

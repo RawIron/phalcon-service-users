@@ -20,7 +20,7 @@ if ($connection->tableExists("customers")) {
 
 $connection->createTable(
     "customers",
-    null,
+    "",
     array(
        "columns" => array(
             new Column(
