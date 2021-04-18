@@ -22,7 +22,7 @@
     php_enable_webserver: true
     php_webserver_daemon: "nginx"
     php_enable_php_fpm: true
-    php_fpm_listen: "/var/run/php/php7.0-fpm.sock"
+    php_fpm_listen: "/var/run/php/php7.4-fpm.sock"
 
     nginx_remove_default_vhost: true
     nginx_vhosts:
@@ -37,7 +37,7 @@
 
           location ~ \.php$ {
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+            fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             fastcgi_param PATH_INFO       $fastcgi_path_info;
@@ -48,9 +48,6 @@
           location ~ /\.ht {
               deny all;
           }
-
-    php7_phalcon_enable_for_fpm: true
-    php7_phalcon_cphalcon_version: "3.0.x"
 
   pre_tasks:
     - name: add ansible repo
@@ -67,9 +64,20 @@
     - { role: geerlingguy.php, tags: ['php'] }
     - { role: geerlingguy.php-mysql, tags: ['php'] }
     - { role: geerlingguy.composer, tags: ['php'] }
-    - { role: vkill.php7-phalcon, tags: ['php'] }
 
   tasks:
+    - name: install php-psr
+      apt: name=php7.4-psr update_cache=yes state=present
+      tags: phalcon
+
+    - name: add php-phalcon repo
+      shell: "curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | sudo bash"
+      tags: phalcon
+
+    - name: install php-phalcon
+      apt: name=php7.4-phalcon update_cache=yes state=present
+      tags: phalcon
+
     - name: install zip
       apt: name=zip update_cache=yes state=latest
 
@@ -78,4 +86,3 @@
 
     - name: load fixture data into db
       command: php /vagrant/fixture.php
-

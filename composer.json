@@ -6,7 +6,7 @@
     "require": {
         "php": "^7.0",
         "phpunit/phpunit": "^5.1",
-        "phalcon/cphalcon": "^3.0"
+        "phalcon/cphalcon": "^4.0"
     },
 
     "autoload": {

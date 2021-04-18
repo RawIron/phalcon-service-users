@@ -5,8 +5,3 @@
 - src: geerlingguy.php-mysql
 - src: geerlingguy.nginx
 - src: geerlingguy.composer
-
-# use my version of php7-phalcon from github
-- src: https://github.com/rawiron/ansible-role-php7-phalcon
-  version: install-script
-  name: rawiron.php7-phalcon
